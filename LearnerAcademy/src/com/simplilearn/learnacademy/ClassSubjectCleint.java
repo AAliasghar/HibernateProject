@@ -1,6 +1,11 @@
 package com.simplilearn.learnacademy;
 
+
+
+import java.util.HashSet;
+
 import java.util.Scanner;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,9 +18,8 @@ class ClassSubjectCleint {
 	private static Scanner scanner = new Scanner(System.in);
 
 	public static String student() {
-		System.out.println("Please type Student Name: ");
+		System.out.println("Please type Number of Student Names: ");
 		String studentName = scanner.next();
-
 		return studentName;
 	}
 
@@ -40,10 +44,7 @@ class ClassSubjectCleint {
 		// Aliasghar Asgharinia
 
 	public static void main(String[] args) {
-		student();
-		subject();
-		teacher();
-		className();
+		
 		Transaction tx = null;
 		try {
 
@@ -58,23 +59,41 @@ class ClassSubjectCleint {
 
 			// 6. Business Object
 
+			
+			Student student1 = new Student(student());
+			Student student2 =new Student("StudentB");
+			Student student3 =new Student("StudentC");
+			Set<Student> students = new HashSet<Student>();
+			students.add(student1);
+			students.add(student2);
+			students.add(student3);
+			session.save(student1);
+			session.save(student2);
+			session.save(student3);			
 			System.out.println(" Save the data Student");
-			Subject subject = new Subject(subject());
-			session.save(subject);
+			Subject subject1 = new Subject(subject());
+			Set<Subject> subject = new HashSet<Subject>();
+			subject.add(subject1);
+			session.save(subject1);
 			// session.save(subject());
 			System.out.println(" Save the data subject");
-			Teachers teachers = new Teachers(teacher());
-			session.save(teachers);
+			Teachers teacher1 = new Teachers(teacher());
+			Set<Teachers> teachers = new HashSet<Teachers>();
+			session.save(teacher1);
 			System.out.println(" Save the data teacher");
 
 			Class className = new Class(className());
 			System.out.println(" Save the data class");
 			session.save(className);
-			Student student = new Student(student());
-			session.save(student);
+			
 			// All Subject belongs to same Class
-
-			subject.setClasses(className);
+			className.setStudents(students);
+			className.setSubjects(subject);
+			className.setTeachers(teachers);
+			student1.setClasses(className);
+			subject1.setClasses(className);
+			teacher1.setClasses(className);
+			subject1.setTeachers(teacher1);
 
 			tx.commit();
 			session.close();

@@ -1,6 +1,6 @@
 package com.simplilearn.learneracademy.anno.utill;
 
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.cfg.AnnotationConfiguration;
 
 public class AHibernateUtill {
